@@ -1,0 +1,101 @@
+services:
+  postgres:
+    image: postgres:16.7
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+
+  graphql-engine:
+    image: hasura/graphql-engine:v2.45.2
+    ports:
+    - "4020:8080"
+    depends_on:
+    - "postgres"
+    restart: always
+    environment:
+      ## postgres database to store Hasura metadata
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## uncomment next line to run console offline (i.e load console assets from server instead of CDN)
+      # HASURA_GRAPHQL_CONSOLE_ASSETS_DIR: /srv/console-assets
+      ## uncomment next line to set an admin secret
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_JWT_SECRET: |
+        {
+          "type": "RS512",
+          "key": "-----BEGIN CERTIFICATE-----\nMIIDDzCCAfegAwIBAgIJabt4cEE9nHBXMA0GCSqGSIb3DQEBCwUAMCUxIzAhBgNV\nBAMTGmx1bmktYWktbG9jYWwuZXUuYXV0aDAuY29tMB4XDTIzMDgzMDEyMTQyMFoX\nDTM3MDUwODEyMTQyMFowJTEjMCEGA1UEAxMabHVuaS1haS1sb2NhbC5ldS5hdXRo\nMC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCQbOQCxdn54efN\nxvA2Bgvo9BZTliVf/g9UtrDMRiFNO6B9PgjbyPkyYIXidb8c36gI1eq5zJ6FEzFX\nnJTgdHrFAncjcgSKK9mkz/1ZtQdqfYM2RC9oztJgHIjBtgFAAV7UkskpPBDTDVq0\nbPQ8piW1q+xFwucSzX761/fr3zr2mdxlLetdATUhWZIjsWwk6kdZgH4P46bHY3+r\nBJI6M3dBChfjQYU5y5z0Dq93BR/0mSyiSVaFTt5b3Zbmpfh23fKAQs3PetersT8k\ngDNzpwTUmwll1LDV1E3Eq448B/qCxQWnYDXuqsylGLe32szBuSLVClnZKB4tCe1g\nG2CBXIU3AgMBAAGjQjBAMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFDrGq1UT\nR5mfGqHy2ih7eOix/MSWMA4GA1UdDwEB/wQEAwIChDANBgkqhkiG9w0BAQsFAAOC\nAQEAjkO0xF8ku4Lf42zVrssNjEIux5hWydQA9pfpi9nsw9yyL8UUWAXTG8owhuPG\ndZjOupE4EN8TWkYRn3UeYNcEWWbCRRxCA73/dT1A4aL8mlV6xJHfdYiZWgpfD7+A\n56wy0e+3q5abSO/92uIe0fdgaHIvwJjNgM5t/1QUUEmPeXHlwolbMZQTHtZCb/kh\nDd/n3wmggpXjfgbefLacjYokBUsEZ6RWKoctVLnTgiwcrVkjmLHySyzWAWj+g0qf\n43qnQ95EB1VL+2g43KLjxe4ZsdN+WlTfWeEqrinTG3iSwU8q640+6tbFBEMRKbBc\nE6w4CWEhiShZpfR6UuT58k9Ngw==\n-----END CERTIFICATE-----",
+          "claims_namespace": "https://luni.ai/jwt/claims"
+        }
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
+      HASURA_GRAPHQL_ACTION_BASE_URL: http://host.docker.internal:4010/actions
+
+  hasura:
+    build:
+      context: .
+      dockerfile: packages/hasura/Dockerfile
+    command: sh -c "wait-on -t 60000 http-get://graphql-engine:8080/healthz && yarn apply && yarn codegen"
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_URL: http://graphql-engine:8080/v1/graphql
+    volumes:
+      - ./packages/hasura/config.yaml:/home/node/hasura/config.yaml
+      - ./packages/hasura/codegen.js:/home/node/hasura/codegen.js
+      - ./packages/hasura/package.json:/home/node/hasura/package.json
+      - ./packages/hasura/metadata:/home/node/hasura/metadata
+      - ./packages/hasura/migrations:/home/node/hasura/migrations
+      - ./packages/hasura/seeds:/home/node/hasura/seeds
+      - ./packages/backend/src:/home/node/backend/src
+      - ./packages/frontend/src:/home/node/frontend/src
+
+  backend:
+    build:
+      context: packages/backend
+      target: development
+    depends_on:
+      - graphql-engine
+    command: yarn dev
+    env_file:
+      - .env
+    environment:
+      PORT: 4010
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_JWT_SECRET: |
+        {
+        "type": "RS512",
+        "key": "-----BEGIN CERTIFICATE-----\nMIIDETCCAfmgAwIBAgIJHUThKO3p4E0wMA0GCSqGSIb3DQEBCwUAMCYxJDAiBgNV\nBAMTG2RlZXAtc2hvcnRpZ2luLnVzLmF1dGgwLmNvbTAeFw0yNTAyMTQxNDU0MzJa\nFw0zODEwMjQxNDU0MzJaMCYxJDAiBgNVBAMTG2RlZXAtc2hvcnRpZ2luLnVzLmF1\ndGgwLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKkMix+jlmok\nZ1wlihQb2luv/PYd2A6jVfWpIjFWTkUg3Ax/ENCyLL1Rn1hy8ihRx8tFsXnVJa0S\nSbK7ao6DeYa5L1S7B2Kpyt4qN/B7FxP5o+4oHC4LdT02B16pPPerbGfnZUcAxNpB\nX0uDqbys7/5yXe8KqK1jHqbTW/AAUWFNGrvk5GzKotmz1GOLqQNA1ImNwbzphcOr\nO/4RgrNX+eRWlo5jkT0hjrSe67F+3PcSHZkBL3S5I2S0s7hxUo+rHijea+e1Q8tw\nA1H7XcTxoS3KYvqCa88C5IQ/UjUWMUExI2cT707SjzhmH7+RAws+YvmgEgqCc6JP\npl6A27tgPF8CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQU1fYP\n8fz/2KJiqynMbRe51qi7UFswDgYDVR0PAQH/BAQDAgKEMA0GCSqGSIb3DQEBCwUA\nA4IBAQBpOCQegRZOL4n/m7QnrWRZiW8Y/GCjO1BRSYC1bU1ijduQSlHkuMTpb+sU\nKSj0Lw3VKzBifcYETFxIVXrDH412e9AMq/FSSgKSWIo+iSksczoZbZr2nstvQDQ8\nlILgSWf1OTw2p325jZM8gFCbwVd0vIbe0ZQWvHh7i4EJW8dEdOiCbtn+mG8RhV+W\ni3BogjMUX3pzE1YWlpj6lXK0zy3lk7UTexrjQI4SBTeiNE9lsql4vpasPON5M/aO\nSo5NB8p6pgySmnRqGUKzxqXEqCdfx5/KcuD/qfcr/37kYsphGLKcR4n39vAhhsD0\nfa4REOYkOXZRrW0KLYf5o0xg9SX5\n-----END CERTIFICATE-----"
+        }
+      HASURA_GRAPHQL_URL: http://graphql-engine:8080/v1/graphql
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+    ports:
+      - '4010:4010'
+    volumes:
+      - ./packages/backend/src:/home/node/src
+
+  frontend:
+    build:
+      context: packages/frontend
+      target: development
+      args:
+        REACT_APP_AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
+        REACT_APP_AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+    depends_on:
+      - graphql-engine
+    command: yarn start
+    ports:
+      - '4030:4030'
+    environment:
+      PORT: 4030
+      REACT_APP_AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
+      REACT_APP_AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+    volumes:
+      - ./packages/frontend/src:/home/node/src
+      - ./packages/frontend/public:/home/node/public
+      - ./packages/frontend/package.json:/home/node/package.json

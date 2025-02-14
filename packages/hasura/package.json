@@ -1,0 +1,27 @@
+{
+  "name": "hasura",
+  "version": "0.0.0",
+  "license": "ISC",
+  "scripts": {
+    "metadata:apply": "hasura --skip-update-check metadata apply",
+    "metadata:dump": "hasura --skip-update-check metadata export",
+    "migration:apply": "hasura --skip-update-check migrate apply --database-name default",
+    "migration:dump": "hasura --skip-update-check migrate create init --from-server",
+    "dump": "yarn migration:dump && yarn metadata:dump",
+    "apply": "yarn migration:apply && yarn metadata:apply",
+    "codegen": "graphql-codegen --config codegen.js"
+  },
+  "devDependencies": {
+    "hasura-cli": "2.36.2"
+  },
+  "dependencies": {
+    "@graphql-codegen/cli": "^2.16.5",
+    "@graphql-codegen/typescript": "^2.8.8",
+    "@graphql-codegen/typescript-graphql-request": "^6.2.0",
+    "@graphql-codegen/typescript-operations": "^2.5.13",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@graphql-codegen/typescript-urql": "^4.0.0",
+    "graphql": "^16.10.0",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,13 @@
+table:
+  name: shortcut_visits
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    shortcut_id:
+      custom_name: shortcutId
+  custom_column_names:
+    created_at: createdAt
+    shortcut_id: shortcutId
+  custom_root_fields: {}

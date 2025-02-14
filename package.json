@@ -1,0 +1,31 @@
+{
+  "name": "shortigin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:karol-maciaszek/shortigin.git",
+  "author": "Karol Maciaszek <karol@maciaszek.pl>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "eslint 'packages/**/*.{ts,tsx}'",
+    "lint:fix": "eslint 'packages/**/*.{ts,tsx}' --fix",
+    "format": "prettier --write 'packages/**/*.{ts,tsx,json,md,yml}'",
+    "hasura:dump": "docker compose run hasura yarn dump",
+    "hasura:metadata:dump": "docker compose run hasura yarn metadata:dump"
+  },
+  "workspaces": [
+    "packages/backend",
+    "packages/frontend",
+    "packages/hasura"
+  ],
+  "dependencies": {
+    "eslint-plugin-prettier": "^5.2.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "prettier": "^3.5.1"
+  }
+}
