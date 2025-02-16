@@ -1,0 +1,5 @@
+mutation InsertShortcutVisit($shortcutId: bigint!, $ip: String) {
+    insert_shortcut_visits_one(object: { shortcutId: $shortcutId, ip: $ip }) {
+        id
+    }
+}

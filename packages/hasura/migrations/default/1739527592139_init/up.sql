@@ -3,7 +3,7 @@ SET check_function_bodies = false;
 CREATE TABLE public.shortcut_visits (
     id bigint NOT NULL,
     shortcut_id bigint NOT NULL,
-    ip text NOT NULL,
+    ip text,
     created_at timestamp with time zone DEFAULT now() NOT NULL
 );
 ALTER TABLE public.shortcut_visits OWNER TO postgres;

@@ -283,7 +283,7 @@ export type Shortcut_Visits = {
   __typename?: 'shortcut_visits';
   createdAt: Scalars['timestamptz'];
   id: Scalars['bigint'];
-  ip: Scalars['String'];
+  ip?: Maybe<Scalars['String']>;
   shortcutId: Scalars['bigint'];
 };
 

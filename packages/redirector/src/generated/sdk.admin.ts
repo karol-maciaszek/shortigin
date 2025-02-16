@@ -283,7 +283,7 @@ export type Shortcut_Visits = {
   __typename?: 'shortcut_visits';
   createdAt: Scalars['timestamptz'];
   id: Scalars['bigint'];
-  ip: Scalars['String'];
+  ip?: Maybe<Scalars['String']>;
   shortcutId: Scalars['bigint'];
 };
 
@@ -841,13 +841,29 @@ export type GetShortcutBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetShortcutBySlugQuery = { __typename?: 'query_root', shortcuts: Array<{ __typename?: 'shortcuts', url: string }> };
+export type GetShortcutBySlugQuery = { __typename?: 'query_root', shortcuts: Array<{ __typename?: 'shortcuts', id: any, url: string }> };
+
+export type InsertShortcutVisitMutationVariables = Exact<{
+  shortcutId: Scalars['bigint'];
+  ip?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type InsertShortcutVisitMutation = { __typename?: 'mutation_root', insert_shortcut_visits_one?: { __typename?: 'shortcut_visits', id: any } | null };
 
 
 export const GetShortcutBySlugDocument = gql`
     query GetShortcutBySlug($slug: String!) {
   shortcuts(where: {slug: {_eq: $slug}}, limit: 1) {
+    id
     url
+  }
+}
+    `;
+export const InsertShortcutVisitDocument = gql`
+    mutation InsertShortcutVisit($shortcutId: bigint!, $ip: String) {
+  insert_shortcut_visits_one(object: {shortcutId: $shortcutId, ip: $ip}) {
+    id
   }
 }
     `;
@@ -861,6 +877,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     GetShortcutBySlug(variables: GetShortcutBySlugQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetShortcutBySlugQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetShortcutBySlugQuery>(GetShortcutBySlugDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetShortcutBySlug', 'query', variables);
+    },
+    InsertShortcutVisit(variables: InsertShortcutVisitMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<InsertShortcutVisitMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<InsertShortcutVisitMutation>(InsertShortcutVisitDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'InsertShortcutVisit', 'mutation', variables);
     }
   };
 }
