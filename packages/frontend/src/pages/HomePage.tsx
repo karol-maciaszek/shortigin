@@ -28,10 +28,10 @@ export const HomePage: React.FC = () => {
 
   const working = insertShortcutFetching || (insertShortcutData && !resultUrl)
 
-  return <main>
+  return <>
     <Logo />
 
-    <form className="mt-20 mb-12 flex gap-3 justify-center" onSubmit={handleSubmit(doShorten)}>
+    <form className="mt-28 mb-12 flex gap-3 justify-center" onSubmit={handleSubmit(doShorten)}>
       <input className="w-1/3" type="text" placeholder="Enter the URL shorten" {...register('url')} />
       <button type="submit" disabled={!formState.isDirty || working}>
         {working ? <ThreeDots height={8} color="#00E0FF" /> : 'Shorten it!'}
@@ -46,5 +46,5 @@ export const HomePage: React.FC = () => {
         <p>Success! Here is you shortened URL: <a href={resultUrl} target="_blank">{resultUrl}</a></p>
         <CopyButton className="px-1 py-0.5 text-xs" text={resultUrl}>Copy</CopyButton>
     </div>}
-  </main>
+  </>
 }

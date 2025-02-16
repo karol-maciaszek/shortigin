@@ -11,6 +11,7 @@ import { NotFoundPage } from './pages/NotFoundPage'
 import {HomePage} from "./pages/HomePage";
 import {Frame} from "./components/Frame";
 import {useAuth0, withAuthenticationRequired} from "@auth0/auth0-react";
+import {ThreeDots} from "react-loader-spinner";
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -25,8 +26,14 @@ function AnimatedRoutes() {
   )
 }
 
+function Loading() {
+  return <div className="w-screen h-screen flex items-center justify-center">
+    <ThreeDots height={8} color="#00E0FF" />
+  </div>
+}
+
 function App() {
-  const { getAccessTokenSilently, isLoading, error } = useAuth0()
+  const {getAccessTokenSilently, isLoading, error} = useAuth0()
 
   const client = useMemo(
     () => getClient(getAccessTokenSilently),
@@ -38,7 +45,7 @@ function App() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return (
@@ -51,5 +58,5 @@ function App() {
 }
 
 export default withAuthenticationRequired(App, {
-  onRedirecting: () => <div>Loading...</div>,
+  onRedirecting: () => <Loading />,
 })
