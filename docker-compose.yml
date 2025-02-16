@@ -87,6 +87,7 @@ services:
       - ./packages/frontend/src:/home/node/src
       - ./packages/frontend/public:/home/node/public
       - ./packages/frontend/package.json:/home/node/package.json
+      - ./packages/frontend/tailwind.config.js:/home/node/tailwind.config.js
 
   redirector:
     build:

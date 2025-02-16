@@ -5,7 +5,32 @@
 @tailwind utilities;
 
 body {
+  @apply bg-darkslate;
+  @apply text-white;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    @apply text-electricblue;
+    @apply hover:text-deepblue;
+    @apply transition-colors;
+    @apply underline;
+}
+
+input {
+    @apply bg-deepblue;
+    @apply text-white;
+    @apply border border-electricblue;
+    @apply rounded-lg;
+    @apply px-3 py-2;
+}
+
+button {
+    @apply bg-electricblue;
+    @apply text-white;
+    @apply border border-electricblue;
+    @apply rounded-lg;
+    @apply px-3 py-2;
 }

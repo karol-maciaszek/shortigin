@@ -5,14 +5,17 @@ import {
   useInsertShortcutMutation
 } from "../generated/urql.user";
 import CopyButton from "../components/CopyButton";
+import Logo from "../components/Logo";
+import MessageBox from "../components/MessageBox";
+import {ThreeDots} from 'react-loader-spinner'
 
 export const HomePage: React.FC = () => {
-  const { handleSubmit, register } = useForm({
+  const { handleSubmit, register, formState } = useForm({
     defaultValues: {
       url: '',
     },
   })
-  const [{ data: insertShortcutData, error: insertShortcutError }, insertShortcut] = useInsertShortcutMutation()
+  const [{ data: insertShortcutData, error: insertShortcutError, fetching: insertShortcutFetching }, insertShortcut] = useInsertShortcutMutation()
   const [{ data: getShortcutData, error: getShortcutError }] = useGetShortcutSubscription({
     pause: !insertShortcutData,
     variables: {
@@ -31,19 +34,22 @@ export const HomePage: React.FC = () => {
   }, [])
 
   return <main>
-    <h1>Deep Shortigin</h1>
+    <Logo />
 
-    {insertShortcutError && <p>Error: {insertShortcutError.message}</p>}
-    {getShortcutError && <p>Error: {getShortcutError.message}</p>}
-
-    <form onSubmit={handleSubmit(doShorten)}>
-      <input type="text" placeholder="URL" {...register('url')} />
-      <button type="submit">Shorten</button>
+    <form className="mt-20 mb-12 flex gap-3 justify-center" onSubmit={handleSubmit(doShorten)}>
+      <input className="w-1/3" type="text" placeholder="Enter the URL shorten" {...register('url')} />
+      <button type="submit" disabled={!formState.isDirty}>
+        {insertShortcutFetching ? <ThreeDots height={8} color="#00E0FF" /> : 'Shorten it!'}
+      </button>
     </form>
 
-    {fullUrl && <p>
-      Success! Here is you shortened URL: <a href={fullUrl} target="_blank">{fullUrl}</a>
-      <CopyButton url={fullUrl}>Copy</CopyButton>
-    </p>}
+    {insertShortcutError && <MessageBox>Error: {insertShortcutError.graphQLErrors[0]?.message}</MessageBox>}
+
+    {getShortcutError && <MessageBox>Error: {getShortcutError.graphQLErrors[0]?.message}</MessageBox>}
+
+    {fullUrl && <div className="flex gap-3 justify-center items-center">
+        <p>Success! Here is you shortened URL: <a href={fullUrl} target="_blank">{fullUrl}</a></p>
+        <CopyButton url={fullUrl}>Copy</CopyButton>
+    </div>}
   </main>
 }
