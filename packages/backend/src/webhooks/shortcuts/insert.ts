@@ -25,8 +25,6 @@ const shortcutInsertEventDecoder = D.struct({
 
 export function shortcutInsertWebhook({ sdk, hashids }: { sdk: Pick<ReturnType<typeof getSdk>, 'UpdateShortcutSlug'>, hashids: Hashids }) {
   return async (req: Request, res: Response<{ message: string }>) => {
-    console.log(req.body)
-
     const payload = pipe(
       req.body,
       shortcutInsertEventDecoder.decode,

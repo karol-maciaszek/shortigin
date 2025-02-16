@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "redirector",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -12,14 +12,10 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "body-parser": "^1.20.3",
     "express": "^5.0.1",
-    "fp-ts": "^2.16.9",
     "graphql": "^16.10.0",
     "graphql-request": "^7.1.2",
-    "graphql-tag": "^2.12.6",
-    "hashids": "^2.3.0",
-    "io-ts": "^2.2.22"
+    "graphql-tag": "^2.12.6"
   },
   "scripts": {
     "start": "node dist/server.js",

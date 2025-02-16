@@ -1,0 +1,5 @@
+query GetShortcutBySlug($slug: String!) {
+    shortcuts(where: { slug: { _eq: $slug } }, limit: 1) {
+        url
+    }
+}

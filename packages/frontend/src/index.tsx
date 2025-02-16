@@ -7,14 +7,11 @@ import { guessApiAddress } from './lib/client'
 import { createBrowserHistory } from 'history'
 
 const history = createBrowserHistory()
-
 const root = document.getElementById('root')
 
 if (!root) {
   throw new Error('No root element found')
 }
-
-console.log(process.env.REACT_APP_AUTH0_DOMAIN)
 
 createRoot(root)
   .render(

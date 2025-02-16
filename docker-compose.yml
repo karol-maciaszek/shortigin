@@ -47,6 +47,7 @@ services:
       - ./packages/hasura/seeds:/home/node/hasura/seeds
       - ./packages/backend/src:/home/node/backend/src
       - ./packages/frontend/src:/home/node/frontend/src
+      - ./packages/redirector/src:/home/node/redirector/src
 
   backend:
     build:
@@ -90,3 +91,31 @@ services:
       - ./packages/frontend/src:/home/node/src
       - ./packages/frontend/public:/home/node/public
       - ./packages/frontend/package.json:/home/node/package.json
+
+  redirector:
+    build:
+      context: packages/redirector
+      target: development
+    depends_on:
+      - graphql-engine
+    command: yarn dev
+    env_file:
+      - .env
+    environment:
+      PORT: 4040
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_URL: http://graphql-engine:8080/v1/graphql
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+    ports:
+      - '4040:4040'
+    volumes:
+      - ./packages/redirector/src:/home/node/src
+
+  gateway:
+    build:
+      context: packages/gateway
+    depends_on:
+      - frontend
+      - redirector
+    ports:
+      - '4050:80'
