@@ -1,0 +1,6 @@
+fragment shortcut on shortcuts {
+    id
+    slug
+    url
+    createdAt
+}

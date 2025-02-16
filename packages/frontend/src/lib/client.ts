@@ -12,7 +12,7 @@ import { createClient as createWSClient } from 'graphql-ws'
 export function guessApiAddress() {
   const host = window.location.host
   if (host.toLowerCase().indexOf('localhost') > -1) {
-    return 'http://localhost:4000/v1/graphql'
+    return 'http://localhost:4020/v1/graphql'
   } else if (host.toLowerCase().startsWith('app.')) {
     return `https://api.${host.replace(/^app\./i, '')}/v1/graphql`
   } else {

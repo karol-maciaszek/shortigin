@@ -5,13 +5,7 @@
 @tailwind utilities;
 
 body {
-  background-color: #F5F8FF;
-  @apply text-blue-900;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  @apply text-blue-700 hover:text-blue-300 transition-colors underline;
 }

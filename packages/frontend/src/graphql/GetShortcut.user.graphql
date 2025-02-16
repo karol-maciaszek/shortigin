@@ -1,0 +1,5 @@
+subscription GetShortcut($id: bigint!) {
+    shortcuts_by_pk(id: $id) {
+        ...shortcut
+    }
+}

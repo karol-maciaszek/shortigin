@@ -1,8 +1,5 @@
 subscription GetShortcuts {
   shortcuts {
-    id
-    slug
-    url
-    createdAt
+    ...shortcut
   }
 }

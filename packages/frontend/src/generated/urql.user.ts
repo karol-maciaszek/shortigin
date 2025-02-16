@@ -452,23 +452,65 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
+export type GetShortcutSubscriptionVariables = Exact<{
+  id: Scalars['bigint'];
+}>;
+
+
+export type GetShortcutSubscription = { __typename?: 'subscription_root', shortcuts_by_pk?: { __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any } | null };
+
 export type GetShortcutsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetShortcutsSubscription = { __typename?: 'subscription_root', shortcuts: Array<{ __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any }> };
 
+export type InsertShortcutMutationVariables = Exact<{
+  url: Scalars['String'];
+}>;
 
+
+export type InsertShortcutMutation = { __typename?: 'mutation_root', insert_shortcuts_one?: { __typename?: 'shortcuts', id: any } | null };
+
+export type ShortcutFragment = { __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any };
+
+export const ShortcutFragmentDoc = gql`
+    fragment shortcut on shortcuts {
+  id
+  slug
+  url
+  createdAt
+}
+    `;
+export const GetShortcutDocument = gql`
+    subscription GetShortcut($id: bigint!) {
+  shortcuts_by_pk(id: $id) {
+    ...shortcut
+  }
+}
+    ${ShortcutFragmentDoc}`;
+
+export function useGetShortcutSubscription<TData = GetShortcutSubscription>(options: Omit<Urql.UseSubscriptionArgs<GetShortcutSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandler<GetShortcutSubscription, TData>) {
+  return Urql.useSubscription<GetShortcutSubscription, TData, GetShortcutSubscriptionVariables>({ query: GetShortcutDocument, ...options }, handler);
+};
 export const GetShortcutsDocument = gql`
     subscription GetShortcuts {
   shortcuts {
+    ...shortcut
+  }
+}
+    ${ShortcutFragmentDoc}`;
+
+export function useGetShortcutsSubscription<TData = GetShortcutsSubscription>(options?: Omit<Urql.UseSubscriptionArgs<GetShortcutsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandler<GetShortcutsSubscription, TData>) {
+  return Urql.useSubscription<GetShortcutsSubscription, TData, GetShortcutsSubscriptionVariables>({ query: GetShortcutsDocument, ...options }, handler);
+};
+export const InsertShortcutDocument = gql`
+    mutation InsertShortcut($url: String!) {
+  insert_shortcuts_one(object: {url: $url}) {
     id
-    slug
-    url
-    createdAt
   }
 }
     `;
 
-export function useGetShortcutsSubscription<TData = GetShortcutsSubscription>(options?: Omit<Urql.UseSubscriptionArgs<GetShortcutsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandler<GetShortcutsSubscription, TData>) {
-  return Urql.useSubscription<GetShortcutsSubscription, TData, GetShortcutsSubscriptionVariables>({ query: GetShortcutsDocument, ...options }, handler);
+export function useInsertShortcutMutation() {
+  return Urql.useMutation<InsertShortcutMutation, InsertShortcutMutationVariables>(InsertShortcutDocument);
 };
