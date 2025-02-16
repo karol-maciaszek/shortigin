@@ -4,6 +4,7 @@ import {
   useGetShortcutSubscription,
   useInsertShortcutMutation
 } from "../generated/urql.user";
+import CopyButton from "../components/CopyButton";
 
 export const HomePage: React.FC = () => {
   const { handleSubmit, register } = useForm({
@@ -42,6 +43,7 @@ export const HomePage: React.FC = () => {
 
     {fullUrl && <p>
       Success! Here is you shortened URL: <a href={fullUrl} target="_blank">{fullUrl}</a>
+      <CopyButton url={fullUrl}>Copy</CopyButton>
     </p>}
   </main>
 }
