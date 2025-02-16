@@ -2,21 +2,22 @@ import React, {InputHTMLAttributes, forwardRef, ButtonHTMLAttributes, useState, 
 
 const CopyButton = forwardRef<
   HTMLButtonElement,
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & { url: string }
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & { text: string }
 >((props, ref) => {
   const [copied, setCopied] = useState(false)
 
   const copy = useCallback(async () => {
-    await navigator.clipboard.writeText(props.url)
+    await navigator.clipboard.writeText(props.text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
-  }, [props.url])
+  }, [props.text])
 
   return (
     <button
       {...props}
       ref={ref}
       onClick={copy}
+      disabled={copied || props.disabled}
     >{copied ? 'Copied!' : props.children}</button>
   )
 })

@@ -14,7 +14,7 @@ body {
 
 a {
     @apply text-electricblue;
-    @apply hover:text-deepblue;
+    @apply hover:text-coolgray;
     @apply transition-colors;
     @apply underline;
 }
@@ -33,4 +33,11 @@ button {
     @apply border border-electricblue;
     @apply rounded-lg;
     @apply px-3 py-2;
+}
+
+button[disabled] {
+    @apply bg-darkslate !important;
+    @apply text-coolgray !important;
+    @apply border-coolgray !important;
+    @apply cursor-not-allowed;
 }
