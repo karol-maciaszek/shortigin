@@ -21,6 +21,13 @@ insert_permissions:
         user_id: x-hasura-User-Id
       columns:
         - url
+      validate_input:
+        definition:
+          forward_client_headers: false
+          headers: []
+          timeout: 10
+          url: '{{HASURA_GRAPHQL_WEBHOOK_BASE_URL}}/shortcuts/validate'
+        type: http
     comment: ""
 select_permissions:
   - role: anonymous
@@ -52,6 +59,13 @@ update_permissions:
       check:
         user_id:
           _eq: X-Hasura-User-Id
+      validate_input:
+        definition:
+          forward_client_headers: false
+          headers: []
+          timeout: 10
+          url: '{{HASURA_GRAPHQL_WEBHOOK_BASE_URL}}/shortcuts/validate'
+        type: http
     comment: ""
 delete_permissions:
   - role: user
@@ -70,4 +84,4 @@ event_triggers:
       interval_sec: 10
       num_retries: 0
       timeout_sec: 60
-    webhook: '{{HASURA_GRAPHQL_SHORTCUT_INSERT_WEBHOOK_URL}}'
+    webhook: '{{HASURA_GRAPHQL_WEBHOOK_BASE_URL}}/shortcuts/insert'

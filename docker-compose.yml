@@ -28,7 +28,7 @@ services:
           "claims_namespace": "https://luni.ai/jwt/claims"
         }
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
-      HASURA_GRAPHQL_SHORTCUT_INSERT_WEBHOOK_URL: http://host.docker.internal:4010/webhooks/shortcuts/insert
+      HASURA_GRAPHQL_WEBHOOK_BASE_URL: http://host.docker.internal:4010/webhooks
 
   hasura:
     build:
@@ -60,13 +60,11 @@ services:
     environment:
       PORT: 4010
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_JWT_SECRET: |
-        {
-        "type": "RS512",
-        "key": "-----BEGIN CERTIFICATE-----\nMIIDETCCAfmgAwIBAgIJHUThKO3p4E0wMA0GCSqGSIb3DQEBCwUAMCYxJDAiBgNV\nBAMTG2RlZXAtc2hvcnRpZ2luLnVzLmF1dGgwLmNvbTAeFw0yNTAyMTQxNDU0MzJa\nFw0zODEwMjQxNDU0MzJaMCYxJDAiBgNVBAMTG2RlZXAtc2hvcnRpZ2luLnVzLmF1\ndGgwLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKkMix+jlmok\nZ1wlihQb2luv/PYd2A6jVfWpIjFWTkUg3Ax/ENCyLL1Rn1hy8ihRx8tFsXnVJa0S\nSbK7ao6DeYa5L1S7B2Kpyt4qN/B7FxP5o+4oHC4LdT02B16pPPerbGfnZUcAxNpB\nX0uDqbys7/5yXe8KqK1jHqbTW/AAUWFNGrvk5GzKotmz1GOLqQNA1ImNwbzphcOr\nO/4RgrNX+eRWlo5jkT0hjrSe67F+3PcSHZkBL3S5I2S0s7hxUo+rHijea+e1Q8tw\nA1H7XcTxoS3KYvqCa88C5IQ/UjUWMUExI2cT707SjzhmH7+RAws+YvmgEgqCc6JP\npl6A27tgPF8CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQU1fYP\n8fz/2KJiqynMbRe51qi7UFswDgYDVR0PAQH/BAQDAgKEMA0GCSqGSIb3DQEBCwUA\nA4IBAQBpOCQegRZOL4n/m7QnrWRZiW8Y/GCjO1BRSYC1bU1ijduQSlHkuMTpb+sU\nKSj0Lw3VKzBifcYETFxIVXrDH412e9AMq/FSSgKSWIo+iSksczoZbZr2nstvQDQ8\nlILgSWf1OTw2p325jZM8gFCbwVd0vIbe0ZQWvHh7i4EJW8dEdOiCbtn+mG8RhV+W\ni3BogjMUX3pzE1YWlpj6lXK0zy3lk7UTexrjQI4SBTeiNE9lsql4vpasPON5M/aO\nSo5NB8p6pgySmnRqGUKzxqXEqCdfx5/KcuD/qfcr/37kYsphGLKcR4n39vAhhsD0\nfa4REOYkOXZRrW0KLYf5o0xg9SX5\n-----END CERTIFICATE-----"
-        }
       HASURA_GRAPHQL_URL: http://graphql-engine:8080/v1/graphql
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASHIDS_SALT: Deep Shoritign
+      HASHIDS_MIN_LENGTH: 6
+      HASHIDS_ALPHABET: fso6VSiWwZdlx0uhPRXBHQ1mA5zacOJMLvjFIqGbn2r3YtgNC4K9Uk8eEyTD7p
     ports:
       - '4010:4010'
     volumes:
