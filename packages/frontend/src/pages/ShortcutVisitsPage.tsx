@@ -11,7 +11,7 @@ export const ShortcutVisitsPage = () => {
   const parsedId = params.id && parseInt(params.id)
   const [{ data: getShortcutVisitsData, fetching: getShortcutVisitsFetching }] = useGetShortcutVisitsSubscription({
     variables: parsedId
-      ? { where: { id: { _eq: parsedId } } }
+      ? { where: { shortcutId: { _eq: parsedId } } }
       : {}
   })
   const navigate = useNavigate()
@@ -23,11 +23,11 @@ export const ShortcutVisitsPage = () => {
   }
 
   return <div>
-    {parsedId && <p className="mt-3 mb-6 flex items-center gap-1">
-        <button className="no-underline" onClick={() => navigate(`/app/shortcuts/${parsedId}`)}>&lt; Back</button>
-    </p>}
-
-    <div className="h-[calc(100vh-6rem)] w-full flex justify-center overflow-y-auto">
+    <div className={`h-[calc(100vh-${parsedId ? 12 : 6}rem)] w-full`}>
+      {parsedId && <p className="mt-3 mb-6 flex items-center gap-1">
+          <button className="no-underline" onClick={() => navigate(`/app/shortcuts/${parsedId}`)}>&lt; Back</button>
+      </p>}
+      <div className="flex justify-center overflow-y-auto h-full">
     <table className="table-auto h-fit w-full">
       <thead>
       <tr>
@@ -38,7 +38,7 @@ export const ShortcutVisitsPage = () => {
       </thead>
       <tbody>
       {getShortcutVisitsData?.shortcut_visits.map((shortcutVisit) => (
-        <tr>
+        <tr key={shortcutVisit.id}>
           <td className="p-3 pl-6 border-b border-b-neoncyan">{new Date(shortcutVisit.createdAt).toLocaleString()}</td>
           <td className="p-3 pl-6 border-b border-b-neoncyan">{shortcutVisit.ip}</td>
           <td className="p-3 pl-6 border-b border-b-neoncyan">
@@ -49,6 +49,7 @@ export const ShortcutVisitsPage = () => {
       ))}
       </tbody>
     </table>
+      </div>
   </div>
   </div>
 }
