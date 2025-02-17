@@ -106,6 +106,10 @@ It is not a cryptographic hash function, rather it is a obfuscation algorithm.
 I considered other options, like symmetric encryption, but the resulting slug were too long (which makes quite sense).
 
 
+### URL Validation
+
+I use fetch to validate both the correctness of the URL and existence of target resource. This method has a "small" drawback: certain sites, like facebook.com use a bot detection mechanism that blocks the request. In such cases, the URL is considered invalid. It could be improved by using e.g. puppeter to run headless browser. However, this may be an overkill resource-wise. I leave the topic open for further discussion.
+
 ## Utils
 
 ### Redirection rate limiting test
