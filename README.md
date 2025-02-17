@@ -4,6 +4,10 @@
 
 ## Solutions
 
+### io-ts for input type validation
+
+The backend leverages `io-ts` for input type validation. It is sibling of `fp-ts` - a functional patterns programming library. It adds a powerful mechanism where I can define the input structure once, and I get the parser (decoder) and TypeScript typings in return. Both are dynamically generated - no additional tools, no code generation. It is a great choice for protecting the backend from the invalid input, which could possibly travel through the whole application leading to unpredictable behavior.
+
 ### Redirection HTTP status code
 
 The service uses `302` for redirection. It is because the underlying target URL of a slug can be edited in the UI. If `301` is used, browsers/proxies could cache the redirection ad future editing would be cumbersome.
