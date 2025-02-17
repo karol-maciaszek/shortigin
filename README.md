@@ -1,5 +1,7 @@
 # Deep Shortigin
 
+![Demo](docs/demo.gif "Demo")
+
 ## Introduction
 
 Deep Shortigin is a URL shortening service. It allows users to create a shortened version of a URL.
@@ -22,7 +24,7 @@ Solution consists of the following components:
 - Postgres database: stores shortcuts and visits
 - Hasura GraphQL engine
   - provides a GraphQL API
-  - manages user permissions
+  - manages user permissions (in a very effective way)
 - Redirector: a service that redirects to the target URL
 - Backend: a service that handles business logic
   - Slug creation based on Hashids
@@ -58,6 +60,12 @@ Solution consists of the following components:
 
 ## Motivation behind specific solutions
 
+### Hasura GraphQL engine
+
+Hasura is a GraphQL engine that connects to the Postgres database and provides a GraphQL API. It is a great tool for quickly building a GraphQL API. I chose it because of the following reasons:
+
+- It provides CRUD GraphQL operation out-of-a-box
+
 ### GraphQL
 
 The service uses GraphQL for the API. Among the well-known benefits of GraphQL, I chose it because of the following reasons:
@@ -80,7 +88,7 @@ The service uses `302` for redirection. It is because the underlying target URL 
 Slug generation is based on [Hashids](https://www.npmjs.com/package/hashids) library. It generates a unique slug for a given integer id. The slug is generated using the following characters: `[a-zA-Z0-9]`.
 It is not a cryptographic hash function, rather it is a obfuscation algorithm. 
 
-- ✅ With the library, we can generate a unique slug without the need for a database check.
+- ✅ With the library, we can generate a unique slug without the need for a database check and possible retries in case of collisions.
 - ✅ Non-trivial output → The output looks random (xYz8Aq instead of 12345).
 - ✅ Collision-free → Every number gets a unique encoded string.
 - ✅ Always ensures a minimum of 6 characters.
