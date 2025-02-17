@@ -6,7 +6,6 @@ WORKDIR /home/node/hasura
 COPY packages/hasura /home/node/hasura
 COPY packages/backend /home/node/backend
 COPY packages/frontend /home/node/frontend
-COPY yarn.lock /home/node/hasura/yarn.lock
 
 RUN yarn global add wait-on
 RUN yarn
