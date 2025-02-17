@@ -13,16 +13,11 @@ if (!root) {
   throw new Error('No root element found')
 }
 
-createRoot(root)
-  .render(
+createRoot(root).render(
   <React.StrictMode>
     <Auth0Provider
       onRedirectCallback={(appState) => {
-        history.push(
-          appState && appState.returnTo
-            ? appState.returnTo
-            : window.location.pathname
-        )
+        history.push(appState && appState.returnTo ? appState.returnTo : window.location.pathname)
       }}
       authorizationParams={{
         redirect_uri: window.location.origin,
@@ -33,5 +28,5 @@ createRoot(root)
     >
       <App />
     </Auth0Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

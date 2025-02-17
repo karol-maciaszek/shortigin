@@ -1,8 +1,8 @@
-import {Request, Response} from "express";
-import * as D from "io-ts/Decoder";
-import {pipe} from "fp-ts/function";
-import * as E from "fp-ts/Either";
-import {identity} from "io-ts";
+import { Request, Response } from 'express'
+import * as D from 'io-ts/Decoder'
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+import { identity } from 'io-ts'
 
 const insertShortcutOpDecoder = D.struct({
   url: D.string,
@@ -21,12 +21,7 @@ type UpdateShortcutOp = D.TypeOf<typeof updateShortcutOpDecoder>
 
 const validationPayloadDecoder = D.struct({
   data: D.struct({
-    input: D.array(
-      D.union(
-        insertShortcutOpDecoder,
-        updateShortcutOpDecoder,
-      )
-    ),
+    input: D.array(D.union(insertShortcutOpDecoder, updateShortcutOpDecoder)),
   }),
 })
 
@@ -53,12 +48,9 @@ export async function shortcutValidateWebhook(req: Request, res: Response<{ mess
   const payload = pipe(
     req.body,
     validationPayloadDecoder.decode,
-    E.fold(
-      (error: D.DecodeError) => {
-        throw new Error(D.draw(error))
-      },
-      identity
-    ),
+    E.fold((error: D.DecodeError) => {
+      throw new Error(D.draw(error))
+    }, identity)
   )
 
   const url = getShortcutUrl(payload.data.input[0])

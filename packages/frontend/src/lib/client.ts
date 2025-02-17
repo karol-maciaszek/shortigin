@@ -5,9 +5,10 @@ import {
   fetchExchange,
   makeOperation,
   subscriptionExchange,
+  SubscriptionOperation,
 } from 'urql'
 import { Auth0ContextInterface } from '@auth0/auth0-react'
-import { createClient as createWSClient } from 'graphql-ws'
+import { Client, createClient as createWSClient } from 'graphql-ws'
 
 export function guessApiAddress() {
   const host = window.location.host
@@ -24,9 +25,7 @@ export function guessWsApiAddress() {
   return guessApiAddress().replace(/^http/, 'ws')
 }
 
-export const getClient = (
-  getAccessToken: Auth0ContextInterface['getAccessTokenSilently']
-) => {
+export const getClient = (getAccessToken: Auth0ContextInterface['getAccessTokenSilently']) => {
   function getSubscriptionClient(accessToken?: string | null) {
     return createWSClient({
       url: guessWsApiAddress(),
@@ -38,7 +37,19 @@ export const getClient = (
     })
   }
 
-  const subscriptionClient = {
+  function getAccessTokenFromOperation(request: SubscriptionOperation) {
+    if (
+      typeof request.context.fetchOptions === 'function' ||
+      !request.context.fetchOptions?.headers ||
+      !('Authorization' in request.context.fetchOptions.headers)
+    ) {
+      return undefined
+    }
+
+    return request.context.fetchOptions.headers.Authorization.replace('Bearer ', '')
+  }
+
+  const subscriptionClient: { client: Client; accessToken?: string } = {
     client: getSubscriptionClient(undefined),
     accessToken: undefined,
   }
@@ -52,22 +63,18 @@ export const getClient = (
     }),
     exchanges: [
       cacheExchange,
-      // @ts-ignore
+      // @ts-expect-error - this is a known issue with the types
       authExchange<string>({
-        // @ts-ignore
+        // @ts-expect-error - this is a known issue with the types
         addAuthToOperation: ({ authState, operation }) => {
-          // the token isn't in the auth state, return the operation without changes
-          if (!authState) {
-            return operation
-          }
+          if (!authState) return operation
 
-          // fetchOptions can be a function (See Client API) but you can simplify this based on usage
           const fetchOptions =
             typeof operation.context.fetchOptions === 'function'
               ? operation.context.fetchOptions()
               : operation.context.fetchOptions || {}
 
-          // @ts-ignore
+          // @ts-expect-error - this is a known issue with the types
           return makeOperation(operation.kind, operation, {
             ...operation.context,
             fetchOptions: {
@@ -81,14 +88,13 @@ export const getClient = (
           })
         },
         didAuthError: ({ error }) => {
-          return error.graphQLErrors.some(
-            (e) => e.extensions?.code === 'invalid-jwt'
-          )
+          return error.graphQLErrors.some((e) => e.extensions?.code === 'invalid-jwt')
         },
-        getAuth: async ({ mutate }) => {
+        getAuth: async () => {
           try {
             return await getAccessToken()
           } catch (e) {
+            console.error(e)
             return null
           }
         },
@@ -96,12 +102,7 @@ export const getClient = (
       fetchExchange,
       subscriptionExchange({
         forwardSubscription(request) {
-          const accessToken =
-            // @ts-ignore
-            request.context.fetchOptions.headers.Authorization?.replace(
-              'Bearer ',
-              ''
-            ) || undefined
+          const accessToken = getAccessTokenFromOperation(request)
           if (accessToken !== subscriptionClient.accessToken) {
             subscriptionClient.accessToken = accessToken
             subscriptionClient.client.dispose()
@@ -110,10 +111,7 @@ export const getClient = (
           const input = { ...request, query: request.query || '' }
           return {
             subscribe: (sink) => {
-              const unsubscribe = subscriptionClient.client.subscribe(
-                input,
-                sink
-              )
+              const unsubscribe = subscriptionClient.client.subscribe(input, sink)
               return { unsubscribe }
             },
           }

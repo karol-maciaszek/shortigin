@@ -1,13 +1,21 @@
-import React, {forwardRef, ButtonHTMLAttributes, useState, useImperativeHandle, useRef} from 'react'
+import React, {
+  forwardRef,
+  ButtonHTMLAttributes,
+  useState,
+  useImperativeHandle,
+  useRef,
+} from 'react'
 
-export type FeedbackButtonType = HTMLButtonElement & { showFeedback: (args?: { timeout?: number }) => void }
+export type FeedbackButtonType = HTMLButtonElement & {
+  showFeedback: (args?: { timeout?: number }) => void
+}
 
 const FeedbackButton = forwardRef<
   HTMLButtonElement & { showFeedback?: (args?: { timeout?: number }) => void },
   ButtonHTMLAttributes<HTMLButtonElement> & { feedback: React.ReactNode }
 >((props, ref) => {
   const [feedbackEnabled, setFeedbackEnabled] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   useImperativeHandle(ref, () => ({
     ...(buttonRef.current as HTMLButtonElement),
@@ -18,11 +26,9 @@ const FeedbackButton = forwardRef<
   }))
 
   return (
-    <button
-      {...props}
-      ref={buttonRef}
-      disabled={feedbackEnabled || props.disabled}
-    >{feedbackEnabled ? props.feedback : props.children}</button>
+    <button {...props} ref={buttonRef} disabled={feedbackEnabled || props.disabled}>
+      {feedbackEnabled ? props.feedback : props.children}
+    </button>
   )
 })
 

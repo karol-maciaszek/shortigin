@@ -1,5 +1,5 @@
-import {Shortcuts} from "../generated/urql.user";
-import {useMemo} from "react";
+import { Shortcuts } from '../generated/urql.user'
+import { useMemo } from 'react'
 
 export function useResultUrl(shortcut?: Pick<Shortcuts, 'slug'> | null) {
   return useMemo(() => {

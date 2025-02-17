@@ -1,8 +1,8 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import {GraphQLClient} from "graphql-request";
-import {getSdk} from "./generated/sdk.admin";
-import {redirectRoute} from "./routes/redirect";
+import { GraphQLClient } from 'graphql-request'
+import { getSdk } from './generated/sdk.admin'
+import { redirectRoute } from './routes/redirect'
 
 const app = express()
 app.use(bodyParser.json({ limit: 10 * 1024 * 1024 }))
@@ -26,13 +26,18 @@ function getIntEnv(name: string): number {
   return parsed
 }
 
-app.get('/:slug', redirectRoute({
-  sdk: getSdk(new GraphQLClient(getStringEnv('HASURA_GRAPHQL_URL'), {
-    headers: {
-      'x-hasura-admin-secret': getStringEnv('HASURA_GRAPHQL_ADMIN_SECRET'),
-    },
-  }))
-}))
+app.get(
+  '/:slug',
+  redirectRoute({
+    sdk: getSdk(
+      new GraphQLClient(getStringEnv('HASURA_GRAPHQL_URL'), {
+        headers: {
+          'x-hasura-admin-secret': getStringEnv('HASURA_GRAPHQL_ADMIN_SECRET'),
+        },
+      })
+    ),
+  })
+)
 
 const port = getIntEnv('PORT')
 app.listen(port, () => console.log(`Listening on ${port}`))

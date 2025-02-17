@@ -1,20 +1,15 @@
 import React, { useMemo } from 'react'
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { Provider as UrqlProvider } from 'urql'
 import { getClient } from './lib/client'
 import { NotFoundPage } from './pages/NotFoundPage'
-import {HomePage} from "./pages/HomePage";
-import {Frame} from "./components/Frame";
-import {useAuth0, withAuthenticationRequired} from "@auth0/auth0-react";
-import {ThreeDots} from "react-loader-spinner";
-import {ShortcutsPage} from "./pages/ShortcutsPage";
-import {ShortcutPage} from "./pages/ShortcutPage";
-import {ShortcutVisitsPage} from "./pages/ShortcutVisitsPage";
+import { HomePage } from './pages/HomePage'
+import { Frame } from './components/Frame'
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
+import { ThreeDots } from 'react-loader-spinner'
+import { ShortcutsPage } from './pages/ShortcutsPage'
+import { ShortcutPage } from './pages/ShortcutPage'
+import { ShortcutVisitsPage } from './pages/ShortcutVisitsPage'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -37,18 +32,17 @@ function AnimatedRoutes() {
 }
 
 function Loading() {
-  return <div className="w-screen h-screen flex items-center justify-center">
-    <ThreeDots height={8} color="#00E0FF" />
-  </div>
+  return (
+    <div className="w-screen h-screen flex items-center justify-center">
+      <ThreeDots height={8} color="#00E0FF" />
+    </div>
+  )
 }
 
 function App() {
-  const {getAccessTokenSilently, isLoading, error} = useAuth0()
+  const { getAccessTokenSilently, isLoading, error } = useAuth0()
 
-  const client = useMemo(
-    () => getClient(getAccessTokenSilently),
-    [getAccessTokenSilently]
-  )
+  const client = useMemo(() => getClient(getAccessTokenSilently), [getAccessTokenSilently])
 
   if (error) {
     return <div>Oops... {error.message}</div>
@@ -61,7 +55,7 @@ function App() {
   return (
     <UrqlProvider value={client}>
       <BrowserRouter>
-      <AnimatedRoutes />
+        <AnimatedRoutes />
       </BrowserRouter>
     </UrqlProvider>
   )
