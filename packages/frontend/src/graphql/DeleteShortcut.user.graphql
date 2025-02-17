@@ -1,0 +1,5 @@
+mutation DeleteShortcut($id: bigint!) {
+    delete_shortcuts_by_pk(id: $id) {
+        id
+    }
+}

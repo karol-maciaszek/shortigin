@@ -15,6 +15,7 @@ module.exports = {
       neoncyan: '#00E0FF',
       darkslate: '#1B1F24',
       black: '#000000',
+      red: '#af1a1a',
     },
     fontFamily: {
       sans: ['Roboto', 'sans-serif'],

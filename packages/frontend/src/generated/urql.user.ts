@@ -452,6 +452,13 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
+export type DeleteShortcutMutationVariables = Exact<{
+  id: Scalars['bigint'];
+}>;
+
+
+export type DeleteShortcutMutation = { __typename?: 'mutation_root', delete_shortcuts_by_pk?: { __typename?: 'shortcuts', id: any } | null };
+
 export type GetShortcutSubscriptionVariables = Exact<{
   id: Scalars['bigint'];
 }>;
@@ -491,6 +498,17 @@ export const ShortcutFragmentDoc = gql`
   createdAt
 }
     `;
+export const DeleteShortcutDocument = gql`
+    mutation DeleteShortcut($id: bigint!) {
+  delete_shortcuts_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+
+export function useDeleteShortcutMutation() {
+  return Urql.useMutation<DeleteShortcutMutation, DeleteShortcutMutationVariables>(DeleteShortcutDocument);
+};
 export const GetShortcutDocument = gql`
     subscription GetShortcut($id: bigint!) {
   shortcuts_by_pk(id: $id) {
