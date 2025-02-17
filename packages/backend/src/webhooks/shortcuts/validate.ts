@@ -37,6 +37,13 @@ function getShortcutUrl(op: InsertShortcutOp | UpdateShortcutOp): string {
   return op.url
 }
 
+async function verifyUrl(url: string) {
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error(`Invalid URL: ${response.statusText} (${response.status})`)
+  }
+}
+
 export async function shortcutValidateWebhook(req: Request, res: Response<{ message: string }>) {
   const payload = pipe(
     req.body,
@@ -49,7 +56,7 @@ export async function shortcutValidateWebhook(req: Request, res: Response<{ mess
   const url = getShortcutUrl(payload.data.input[0])
 
   try {
-    await fetch(url, { method: 'head' })
+    await verifyUrl(url)
     res.send({ message: 'ok' })
   } catch (error) {
     if (error instanceof Error) {
