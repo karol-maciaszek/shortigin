@@ -1,24 +1,20 @@
-import React, {forwardRef, ButtonHTMLAttributes, useState, useCallback} from 'react'
+import React, {forwardRef, ButtonHTMLAttributes, useCallback, useRef} from 'react'
+import FeedbackButton, {FeedbackButtonType} from "./FeedbackButton";
 
-const CopyButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & { text: string }
->((props, ref) => {
-  const [copied, setCopied] = useState(false)
-
+const CopyButton = ((props: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & { text: string }) => {
+  const feedbackButtonRef = useRef<FeedbackButtonType>(null)
   const copy = useCallback(async () => {
     await navigator.clipboard.writeText(props.text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    feedbackButtonRef.current?.showFeedback()
   }, [props.text])
 
   return (
-    <button
+    <FeedbackButton
       {...props}
-      ref={ref}
+      ref={feedbackButtonRef}
       onClick={copy}
-      disabled={copied || props.disabled}
-    >{copied ? 'Copied!' : props.children}</button>
+      feedback="Copied!"
+    >{props.children}</FeedbackButton>
   )
 })
 

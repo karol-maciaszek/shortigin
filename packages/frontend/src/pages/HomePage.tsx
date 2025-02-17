@@ -6,8 +6,9 @@ import {
 } from "../generated/urql.user";
 import CopyButton from "../components/CopyButton";
 import Logo from "../components/Logo";
-import MessageBox from "../components/MessageBox";
+import ErrorBox from "../components/ErrorBox";
 import {ThreeDots} from 'react-loader-spinner'
+import {useResultUrl} from "../lib/url";
 
 export const HomePage = () => {
   const { handleSubmit, register, formState } = useForm({ defaultValues: { url: '' } })
@@ -18,14 +19,8 @@ export const HomePage = () => {
       id: insertShortcutData?.insert_shortcuts_one?.id,
     },
   })
-
   const doShorten = useCallback(insertShortcut, [])
-
-  const resultUrl = useMemo(() => {
-    const slug = getShortcutData?.shortcuts_by_pk?.slug
-    return slug && window.location.origin + '/' + slug
-  }, [getShortcutData?.shortcuts_by_pk?.slug])
-
+  const resultUrl = useResultUrl(getShortcutData?.shortcuts_by_pk)
   const working = insertShortcutFetching || (insertShortcutData && !resultUrl)
 
   return <>
@@ -38,9 +33,9 @@ export const HomePage = () => {
       </button>
     </form>
 
-    {insertShortcutError && <MessageBox>Error: {insertShortcutError.graphQLErrors[0]?.message}</MessageBox>}
+    {insertShortcutError && <ErrorBox error={insertShortcutError} />}
 
-    {getShortcutError && <MessageBox>Error: {getShortcutError.graphQLErrors[0]?.message}</MessageBox>}
+    {getShortcutError && <ErrorBox error={getShortcutError} />}
 
     {resultUrl && <div className="flex gap-3 justify-center items-center">
         <p>Success! Here is you shortened URL: <a href={resultUrl} target="_blank">{resultUrl}</a></p>

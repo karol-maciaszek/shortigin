@@ -1,0 +1,7 @@
+mutation UpdateShortcut($id: bigint!, $url: String!) {
+    update_shortcuts_by_pk(pk_columns: {id: $id}, _set: {
+        url: $url
+    }) {
+        id
+    }
+}

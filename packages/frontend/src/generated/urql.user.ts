@@ -459,7 +459,9 @@ export type GetShortcutSubscriptionVariables = Exact<{
 
 export type GetShortcutSubscription = { __typename?: 'subscription_root', shortcuts_by_pk?: { __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any } | null };
 
-export type GetShortcutsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type GetShortcutsSubscriptionVariables = Exact<{
+  orderBy?: InputMaybe<Array<Shortcuts_Order_By> | Shortcuts_Order_By>;
+}>;
 
 
 export type GetShortcutsSubscription = { __typename?: 'subscription_root', shortcuts: Array<{ __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any }> };
@@ -470,6 +472,14 @@ export type InsertShortcutMutationVariables = Exact<{
 
 
 export type InsertShortcutMutation = { __typename?: 'mutation_root', insert_shortcuts_one?: { __typename?: 'shortcuts', id: any } | null };
+
+export type UpdateShortcutMutationVariables = Exact<{
+  id: Scalars['bigint'];
+  url: Scalars['String'];
+}>;
+
+
+export type UpdateShortcutMutation = { __typename?: 'mutation_root', update_shortcuts_by_pk?: { __typename?: 'shortcuts', id: any } | null };
 
 export type ShortcutFragment = { __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any };
 
@@ -493,8 +503,8 @@ export function useGetShortcutSubscription<TData = GetShortcutSubscription>(opti
   return Urql.useSubscription<GetShortcutSubscription, TData, GetShortcutSubscriptionVariables>({ query: GetShortcutDocument, ...options }, handler);
 };
 export const GetShortcutsDocument = gql`
-    subscription GetShortcuts {
-  shortcuts {
+    subscription GetShortcuts($orderBy: [shortcuts_order_by!]) {
+  shortcuts(order_by: $orderBy) {
     ...shortcut
   }
 }
@@ -513,4 +523,15 @@ export const InsertShortcutDocument = gql`
 
 export function useInsertShortcutMutation() {
   return Urql.useMutation<InsertShortcutMutation, InsertShortcutMutationVariables>(InsertShortcutDocument);
+};
+export const UpdateShortcutDocument = gql`
+    mutation UpdateShortcut($id: bigint!, $url: String!) {
+  update_shortcuts_by_pk(pk_columns: {id: $id}, _set: {url: $url}) {
+    id
+  }
+}
+    `;
+
+export function useUpdateShortcutMutation() {
+  return Urql.useMutation<UpdateShortcutMutation, UpdateShortcutMutationVariables>(UpdateShortcutDocument);
 };

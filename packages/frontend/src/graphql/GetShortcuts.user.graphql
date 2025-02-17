@@ -1,5 +1,5 @@
-subscription GetShortcuts {
-  shortcuts {
+subscription GetShortcuts($orderBy: [shortcuts_order_by!]) {
+  shortcuts(order_by: $orderBy) {
     ...shortcut
   }
 }
