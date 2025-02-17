@@ -6,6 +6,10 @@
 
 Deep Shortigin is a URL shortening service. It allows users to create a shortened version of a URL.
 
+## Live demo
+
+Visit [https://shortigin.maciaszek.pl](https://shortigin.maciaszek.pl) to see the live demo.
+
 ## Getting started
 
 You need to have Docker installed on your machine. The service is composed of multiple containers, and Docker Compose is used to manage them.
