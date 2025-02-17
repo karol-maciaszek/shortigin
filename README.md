@@ -2,7 +2,16 @@
 
 ## Introduction
 
-## Solutions
+## Motivation behind specific solutions
+
+### GraphQL
+
+The service uses GraphQL for the API. Among the well-known benefits of GraphQL, I chose it because of the following reasons:
+
+- The API is internal, not meant for public use.
+- Subscriptions - the service uses real-time updates.
+- Strongly typed - the schema is defined in the code, and the TypeScript typings are generated automatically.
+
 
 ### io-ts for input type validation
 
