@@ -6,6 +6,7 @@ import {useResultUrl} from "../lib/url";
 import ErrorBox from "../components/ErrorBox";
 import {ThreeDots} from "react-loader-spinner";
 import FeedbackButton, {FeedbackButtonType} from "../components/FeedbackButton";
+import CopyButton from "../components/CopyButton";
 
 export const ShortcutPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -53,8 +54,11 @@ export const ShortcutPage = () => {
     {getShortcutError && <ErrorBox error={getShortcutError}/>}
 
     <form className="grid grid-cols-4 gap-3 items-center" onSubmit={handleSubmit(doSave)}>
-      <label>Shortened URL</label>
-      <p className="col-span-3"><a href={resultUrl || ''} target="_blank">{resultUrl}</a></p>
+      {resultUrl && <><label>Shortened URL</label>
+      <p className="col-span-3">
+        <a href={resultUrl} target="_blank">{resultUrl}</a>
+        <CopyButton type="button" className="ml-3 px-1 py-0.5 text-xs" text={resultUrl}>Copy</CopyButton>
+      </p></>}
 
       <label>Target URL</label>
       <input className="col-span-3" type="text" {...register('url', {required: 'Cannot be empty'})}
