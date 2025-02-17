@@ -1,8 +1,4 @@
 #!/bin/bash
 
 # Docker Hub environment variables injection
-
-if [ $DOCKER_TAG == "dev" ]
-then
-  docker build . --build-arg REACT_APP_AUTH0_CLIENT_ID=${DEV_AUTH0_CLIENT_ID} --build-arg REACT_APP_AUTH0_DOMAIN=${DEV_AUTH0_DOMAIN} -t ${IMAGE_NAME}
-fi
+docker build . --build-arg REACT_APP_AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID} --build-arg REACT_APP_AUTH0_DOMAIN=${AUTH0_DOMAIN} -t ${IMAGE_NAME}
