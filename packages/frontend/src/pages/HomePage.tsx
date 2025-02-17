@@ -24,7 +24,7 @@ export const HomePage = () => {
   const working = insertShortcutFetching || (insertShortcutData && !resultUrl)
 
   return (
-    <>
+    <div className="pt-12">
       <Logo size="lg" />
 
       <form className="mt-28 mb-12 flex gap-3 justify-center" onSubmit={handleSubmit(doShorten)}>
@@ -56,6 +56,6 @@ export const HomePage = () => {
           </CopyButton>
         </div>
       )}
-    </>
+    </div>
   )
 }

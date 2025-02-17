@@ -10,7 +10,7 @@ export const ShortcutsPage = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="px-16 h-[calc(100vh-6rem)] flex justify-center">
+    <div className="h-[calc(100vh-6rem)] flex justify-center">
       <div className="w-full grid grid-cols-4 gap-6">
         <ul className="overflow-y-auto">
           {getShortcutsData?.shortcuts.map((shortcut) => (

@@ -76,7 +76,7 @@ export const Frame = () => {
           )}
         </ul>
       </nav>
-      <main className="p-4">
+      <main className="px-6 py-4">
         <Outlet />
       </main>
     </div>
