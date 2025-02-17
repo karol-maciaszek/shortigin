@@ -284,6 +284,8 @@ export type Shortcut_Visits = {
   createdAt: Scalars['timestamptz'];
   id: Scalars['bigint'];
   ip?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  shortcut: Shortcuts;
   shortcutId: Scalars['bigint'];
 };
 
@@ -332,6 +334,7 @@ export type Shortcut_Visits_Bool_Exp = {
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
   ip?: InputMaybe<String_Comparison_Exp>;
+  shortcut?: InputMaybe<Shortcuts_Bool_Exp>;
   shortcutId?: InputMaybe<Bigint_Comparison_Exp>;
 };
 
@@ -352,6 +355,7 @@ export type Shortcut_Visits_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['bigint']>;
   ip?: InputMaybe<Scalars['String']>;
+  shortcut?: InputMaybe<Shortcuts_Obj_Rel_Insert_Input>;
   shortcutId?: InputMaybe<Scalars['bigint']>;
 };
 
@@ -394,6 +398,7 @@ export type Shortcut_Visits_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   ip?: InputMaybe<Order_By>;
+  shortcut?: InputMaybe<Shortcuts_Order_By>;
   shortcutId?: InputMaybe<Order_By>;
 };
 
@@ -615,6 +620,13 @@ export type Shortcuts_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Shortcuts>;
+};
+
+/** input type for inserting object relation for remote table "shortcuts" */
+export type Shortcuts_Obj_Rel_Insert_Input = {
+  data: Shortcuts_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Shortcuts_On_Conflict>;
 };
 
 /** on_conflict condition type for table "shortcuts" */

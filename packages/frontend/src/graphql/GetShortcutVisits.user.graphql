@@ -1,0 +1,10 @@
+subscription GetShortcutVisits($where: shortcut_visits_bool_exp) {
+    shortcut_visits(where: $where, order_by: { createdAt: desc }) {
+        id
+        ip
+        createdAt
+        shortcut {
+            ...shortcut
+        }
+    }
+}

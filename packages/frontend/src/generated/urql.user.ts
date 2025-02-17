@@ -154,12 +154,41 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "shortcut_visits" */
+  shortcut_visits: Array<Shortcut_Visits>;
+  /** fetch aggregated fields from the table: "shortcut_visits" */
+  shortcut_visits_aggregate: Shortcut_Visits_Aggregate;
+  /** fetch data from the table: "shortcut_visits" using primary key columns */
+  shortcut_visits_by_pk?: Maybe<Shortcut_Visits>;
   /** fetch data from the table: "shortcuts" */
   shortcuts: Array<Shortcuts>;
   /** fetch aggregated fields from the table: "shortcuts" */
   shortcuts_aggregate: Shortcuts_Aggregate;
   /** fetch data from the table: "shortcuts" using primary key columns */
   shortcuts_by_pk?: Maybe<Shortcuts>;
+};
+
+
+export type Query_RootShortcut_VisitsArgs = {
+  distinct_on?: InputMaybe<Array<Shortcut_Visits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Shortcut_Visits_Order_By>>;
+  where?: InputMaybe<Shortcut_Visits_Bool_Exp>;
+};
+
+
+export type Query_RootShortcut_Visits_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Shortcut_Visits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Shortcut_Visits_Order_By>>;
+  where?: InputMaybe<Shortcut_Visits_Bool_Exp>;
+};
+
+
+export type Query_RootShortcut_Visits_By_PkArgs = {
+  id: Scalars['bigint'];
 };
 
 
@@ -183,6 +212,170 @@ export type Query_RootShortcuts_AggregateArgs = {
 
 export type Query_RootShortcuts_By_PkArgs = {
   id: Scalars['bigint'];
+};
+
+/** columns and relationships of "shortcut_visits" */
+export type Shortcut_Visits = {
+  __typename?: 'shortcut_visits';
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['bigint'];
+  ip?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  shortcut: Shortcuts;
+  shortcutId: Scalars['bigint'];
+};
+
+/** aggregated selection of "shortcut_visits" */
+export type Shortcut_Visits_Aggregate = {
+  __typename?: 'shortcut_visits_aggregate';
+  aggregate?: Maybe<Shortcut_Visits_Aggregate_Fields>;
+  nodes: Array<Shortcut_Visits>;
+};
+
+/** aggregate fields of "shortcut_visits" */
+export type Shortcut_Visits_Aggregate_Fields = {
+  __typename?: 'shortcut_visits_aggregate_fields';
+  avg?: Maybe<Shortcut_Visits_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Shortcut_Visits_Max_Fields>;
+  min?: Maybe<Shortcut_Visits_Min_Fields>;
+  stddev?: Maybe<Shortcut_Visits_Stddev_Fields>;
+  stddev_pop?: Maybe<Shortcut_Visits_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Shortcut_Visits_Stddev_Samp_Fields>;
+  sum?: Maybe<Shortcut_Visits_Sum_Fields>;
+  var_pop?: Maybe<Shortcut_Visits_Var_Pop_Fields>;
+  var_samp?: Maybe<Shortcut_Visits_Var_Samp_Fields>;
+  variance?: Maybe<Shortcut_Visits_Variance_Fields>;
+};
+
+
+/** aggregate fields of "shortcut_visits" */
+export type Shortcut_Visits_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Shortcut_Visits_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Shortcut_Visits_Avg_Fields = {
+  __typename?: 'shortcut_visits_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  shortcutId?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "shortcut_visits". All fields are combined with a logical 'AND'. */
+export type Shortcut_Visits_Bool_Exp = {
+  _and?: InputMaybe<Array<Shortcut_Visits_Bool_Exp>>;
+  _not?: InputMaybe<Shortcut_Visits_Bool_Exp>;
+  _or?: InputMaybe<Array<Shortcut_Visits_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Bigint_Comparison_Exp>;
+  ip?: InputMaybe<String_Comparison_Exp>;
+  shortcut?: InputMaybe<Shortcuts_Bool_Exp>;
+  shortcutId?: InputMaybe<Bigint_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Shortcut_Visits_Max_Fields = {
+  __typename?: 'shortcut_visits_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['bigint']>;
+  ip?: Maybe<Scalars['String']>;
+  shortcutId?: Maybe<Scalars['bigint']>;
+};
+
+/** aggregate min on columns */
+export type Shortcut_Visits_Min_Fields = {
+  __typename?: 'shortcut_visits_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['bigint']>;
+  ip?: Maybe<Scalars['String']>;
+  shortcutId?: Maybe<Scalars['bigint']>;
+};
+
+/** Ordering options when selecting data from "shortcut_visits". */
+export type Shortcut_Visits_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  ip?: InputMaybe<Order_By>;
+  shortcut?: InputMaybe<Shortcuts_Order_By>;
+  shortcutId?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "shortcut_visits" */
+export enum Shortcut_Visits_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Ip = 'ip',
+  /** column name */
+  ShortcutId = 'shortcutId'
+}
+
+/** aggregate stddev on columns */
+export type Shortcut_Visits_Stddev_Fields = {
+  __typename?: 'shortcut_visits_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  shortcutId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Shortcut_Visits_Stddev_Pop_Fields = {
+  __typename?: 'shortcut_visits_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  shortcutId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Shortcut_Visits_Stddev_Samp_Fields = {
+  __typename?: 'shortcut_visits_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  shortcutId?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "shortcut_visits" */
+export type Shortcut_Visits_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Shortcut_Visits_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Shortcut_Visits_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['bigint']>;
+  ip?: InputMaybe<Scalars['String']>;
+  shortcutId?: InputMaybe<Scalars['bigint']>;
+};
+
+/** aggregate sum on columns */
+export type Shortcut_Visits_Sum_Fields = {
+  __typename?: 'shortcut_visits_sum_fields';
+  id?: Maybe<Scalars['bigint']>;
+  shortcutId?: Maybe<Scalars['bigint']>;
+};
+
+/** aggregate var_pop on columns */
+export type Shortcut_Visits_Var_Pop_Fields = {
+  __typename?: 'shortcut_visits_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  shortcutId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Shortcut_Visits_Var_Samp_Fields = {
+  __typename?: 'shortcut_visits_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  shortcutId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Shortcut_Visits_Variance_Fields = {
+  __typename?: 'shortcut_visits_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  shortcutId?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "shortcuts" */
@@ -399,6 +592,14 @@ export type Shortcuts_Variance_Fields = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "shortcut_visits" */
+  shortcut_visits: Array<Shortcut_Visits>;
+  /** fetch aggregated fields from the table: "shortcut_visits" */
+  shortcut_visits_aggregate: Shortcut_Visits_Aggregate;
+  /** fetch data from the table: "shortcut_visits" using primary key columns */
+  shortcut_visits_by_pk?: Maybe<Shortcut_Visits>;
+  /** fetch data from the table in a streaming manner: "shortcut_visits" */
+  shortcut_visits_stream: Array<Shortcut_Visits>;
   /** fetch data from the table: "shortcuts" */
   shortcuts: Array<Shortcuts>;
   /** fetch aggregated fields from the table: "shortcuts" */
@@ -407,6 +608,36 @@ export type Subscription_Root = {
   shortcuts_by_pk?: Maybe<Shortcuts>;
   /** fetch data from the table in a streaming manner: "shortcuts" */
   shortcuts_stream: Array<Shortcuts>;
+};
+
+
+export type Subscription_RootShortcut_VisitsArgs = {
+  distinct_on?: InputMaybe<Array<Shortcut_Visits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Shortcut_Visits_Order_By>>;
+  where?: InputMaybe<Shortcut_Visits_Bool_Exp>;
+};
+
+
+export type Subscription_RootShortcut_Visits_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Shortcut_Visits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Shortcut_Visits_Order_By>>;
+  where?: InputMaybe<Shortcut_Visits_Bool_Exp>;
+};
+
+
+export type Subscription_RootShortcut_Visits_By_PkArgs = {
+  id: Scalars['bigint'];
+};
+
+
+export type Subscription_RootShortcut_Visits_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Shortcut_Visits_Stream_Cursor_Input>>;
+  where?: InputMaybe<Shortcut_Visits_Bool_Exp>;
 };
 
 
@@ -466,6 +697,13 @@ export type GetShortcutSubscriptionVariables = Exact<{
 
 export type GetShortcutSubscription = { __typename?: 'subscription_root', shortcuts_by_pk?: { __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any } | null };
 
+export type GetShortcutVisitsSubscriptionVariables = Exact<{
+  where?: InputMaybe<Shortcut_Visits_Bool_Exp>;
+}>;
+
+
+export type GetShortcutVisitsSubscription = { __typename?: 'subscription_root', shortcut_visits: Array<{ __typename?: 'shortcut_visits', id: any, ip?: string | null, createdAt: any, shortcut: { __typename?: 'shortcuts', id: any, slug?: string | null, url: string, createdAt: any } }> };
+
 export type GetShortcutsSubscriptionVariables = Exact<{
   orderBy?: InputMaybe<Array<Shortcuts_Order_By> | Shortcuts_Order_By>;
 }>;
@@ -519,6 +757,22 @@ export const GetShortcutDocument = gql`
 
 export function useGetShortcutSubscription<TData = GetShortcutSubscription>(options: Omit<Urql.UseSubscriptionArgs<GetShortcutSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandler<GetShortcutSubscription, TData>) {
   return Urql.useSubscription<GetShortcutSubscription, TData, GetShortcutSubscriptionVariables>({ query: GetShortcutDocument, ...options }, handler);
+};
+export const GetShortcutVisitsDocument = gql`
+    subscription GetShortcutVisits($where: shortcut_visits_bool_exp) {
+  shortcut_visits(where: $where, order_by: {createdAt: desc}) {
+    id
+    ip
+    createdAt
+    shortcut {
+      ...shortcut
+    }
+  }
+}
+    ${ShortcutFragmentDoc}`;
+
+export function useGetShortcutVisitsSubscription<TData = GetShortcutVisitsSubscription>(options?: Omit<Urql.UseSubscriptionArgs<GetShortcutVisitsSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandler<GetShortcutVisitsSubscription, TData>) {
+  return Urql.useSubscription<GetShortcutVisitsSubscription, TData, GetShortcutVisitsSubscriptionVariables>({ query: GetShortcutVisitsDocument, ...options }, handler);
 };
 export const GetShortcutsDocument = gql`
     subscription GetShortcuts($orderBy: [shortcuts_order_by!]) {

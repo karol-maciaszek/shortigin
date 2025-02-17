@@ -29,6 +29,10 @@ export const Frame = () => {
             <button className="bg-transparent border-none p-0" onClick={() => navigate('/app/shortcuts')}>Manage</button>
             <span className="text-neoncyan ml-3">|</span>
           </li>
+          <li>
+            <button className="bg-transparent border-none p-0" onClick={() => navigate('/app/visits')}>Visits</button>
+            <span className="text-neoncyan ml-3">|</span>
+          </li>
           {user && <li>
           <Menu>
                   <MenuButton className="flex gap-1 items-center bg-transparent border-none p-0">
@@ -58,7 +62,7 @@ export const Frame = () => {
           </li>}
         </ul>
       </nav>
-      <main className="px-16 py-4">
+      <main className="p-4">
         <Outlet />
       </main>
     </div>

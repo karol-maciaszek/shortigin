@@ -14,6 +14,7 @@ import {useAuth0, withAuthenticationRequired} from "@auth0/auth0-react";
 import {ThreeDots} from "react-loader-spinner";
 import {ShortcutsPage} from "./pages/ShortcutsPage";
 import {ShortcutPage} from "./pages/ShortcutPage";
+import {ShortcutVisitsPage} from "./pages/ShortcutVisitsPage";
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -23,8 +24,12 @@ function AnimatedRoutes() {
       <Route path="/" element={<Frame />}>
         <Route index element={<HomePage />} />
         <Route path="/app/shortcuts" element={<ShortcutsPage />}>
-          <Route path=":id" element={<ShortcutPage />} />
+          <Route path=":id">
+            <Route index element={<ShortcutPage />} />
+            <Route path="visits" element={<ShortcutVisitsPage />} />
+          </Route>
         </Route>
+        <Route path="/app/visits" element={<ShortcutVisitsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

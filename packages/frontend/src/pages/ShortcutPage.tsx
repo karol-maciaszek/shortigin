@@ -46,26 +46,32 @@ export const ShortcutPage = () => {
   }, [parsedId])
 
   return <div>
-    {getShortcutError && <ErrorBox error={getShortcutError} />}
+    <p className="mt-3 mb-6 flex items-center gap-3">
+      <span className="text-xl">Shortcut</span> <span className="text-neoncyan">|</span> <button className="no-underline" onClick={() => navigate(`/app/shortcuts/${parsedId}/visits`)}>Visits</button>
+    </p>
 
-    <h1 className="text-xl my-3">Shortcut</h1>
+    {getShortcutError && <ErrorBox error={getShortcutError}/>}
+
     <form className="grid grid-cols-4 gap-3 items-center" onSubmit={handleSubmit(doSave)}>
       <label>Shortened URL</label>
       <p className="col-span-3"><a href={resultUrl || ''} target="_blank">{resultUrl}</a></p>
 
       <label>Target URL</label>
-      <input className="col-span-3" type="text" {...register('url', { required: 'Cannot be empty' })} placeholder="Target URL" />
+      <input className="col-span-3" type="text" {...register('url', {required: 'Cannot be empty'})}
+             placeholder="Target URL"/>
 
       <p className="col-span-4 flex gap-3">
-        <FeedbackButton className="ml-auto" type="submit" feedback="Updated!" ref={updateButtonRef} disabled={updateShortcutFetching || !isDirty}>
-          {updateShortcutFetching ? <ThreeDots height={8} color="#00E0FF" /> : 'Update'}
+        <FeedbackButton className="ml-auto" type="submit" feedback="Updated!" ref={updateButtonRef}
+                        disabled={updateShortcutFetching || !isDirty}>
+          {updateShortcutFetching ? <ThreeDots height={8} color="#00E0FF"/> : 'Update'}
         </FeedbackButton>
-        <FeedbackButton className="bg-red border-red" feedback="Deleted!" type="button" onClick={doDelete} ref={deleteButtonRef} disabled={deleteShortcutFetching}>
-          {deleteShortcutFetching ? <ThreeDots height={8} color="#00E0FF" /> : 'Delete'}
+        <FeedbackButton className="bg-red border-red" feedback="Deleted!" type="button" onClick={doDelete}
+                        ref={deleteButtonRef} disabled={deleteShortcutFetching}>
+          {deleteShortcutFetching ? <ThreeDots height={8} color="#00E0FF"/> : 'Delete'}
         </FeedbackButton>
       </p>
     </form>
-    {updateShortcutError && <ErrorBox error={updateShortcutError} />}
-    {deleteShortcutError && <ErrorBox error={deleteShortcutError} />}
+    {updateShortcutError && <ErrorBox error={updateShortcutError}/>}
+    {deleteShortcutError && <ErrorBox error={deleteShortcutError}/>}
   </div>
 }
