@@ -18,15 +18,13 @@
     "outDir": "dist",
     "sourceMap": true,
     "types": [
-      "node",
-      "jest"
+      "node"
     ]
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
+    "node_modules"
   ]
 }

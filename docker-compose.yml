@@ -15,9 +15,9 @@ services:
     - "postgres"
     restart: always
     environment:
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: ${HASURA_GRAPHQL_DATABASE_URL}
+      HASURA_GRAPHQL_DATABASE_URL: ${HASURA_GRAPHQL_DATABASE_URL}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
@@ -33,7 +33,7 @@ services:
     command: sh -c "wait-on -t 60000 http-get://graphql-engine:8080/healthz && yarn apply && yarn codegen"
     environment:
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_URL: http://graphql-engine:8080/v1/graphql
+      HASURA_GRAPHQL_URL: ${HASURA_GRAPHQL_URL}
     volumes:
       - ./packages/hasura/config.yaml:/home/node/hasura/config.yaml
       - ./packages/hasura/codegen.js:/home/node/hasura/codegen.js
@@ -57,11 +57,10 @@ services:
     environment:
       PORT: 4010
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_URL: http://graphql-engine:8080/v1/graphql
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      HASHIDS_SALT: Deep Shoritign
-      HASHIDS_MIN_LENGTH: 6
-      HASHIDS_ALPHABET: fso6VSiWwZdlx0uhPRXBHQ1mA5zacOJMLvjFIqGbn2r3YtgNC4K9Uk8eEyTD7p
+      HASURA_GRAPHQL_URL: ${HASURA_GRAPHQL_URL}
+      HASHIDS_SALT: ${HASHIDS_SALT}
+      HASHIDS_MIN_LENGTH: ${HASHIDS_MIN_LENGTH}
+      HASHIDS_ALPHABET: ${HASHIDS_ALPHABET}
     ports:
       - '4010:4010'
     volumes:
@@ -101,8 +100,7 @@ services:
     environment:
       PORT: 4040
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_URL: http://graphql-engine:8080/v1/graphql
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_URL: ${HASURA_GRAPHQL_URL}
     ports:
       - '4040:4040'
     volumes:
