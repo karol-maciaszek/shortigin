@@ -2,6 +2,36 @@
 
 ## Introduction
 
+Deep Shortigin is a URL shortening service. It allows users to create a shortened version of a URL.
+
+## Getting started
+
+You need to have Docker installed on your machine. The service is composed of multiple containers, and Docker Compose is used to manage them.
+
+After cloning the repository, you can start the service by running the following command:
+
+```bash
+docker compose up
+```
+
+## Architecture
+
+![Architecture](docs/architecture.png "Architecture")
+
+Solution consists of the following components:
+- Postgres database: stores shortcuts and visits
+- Hasura GraphQL engine
+  - provides a GraphQL API
+  - manages user permissions
+- Redirector: a service that redirects to the target URL
+- Backend: a service that handles business logic
+  - Slug creation based on Hashids
+  - URL validation using `fetch`
+- Frontend: a React application + webserver for serving assets
+- Gateway: an Nginx server that routes requests to the appropriate service
+  - since we are using the same domain for all services, the gateway is responsible for routing requests between redirector and frontend server
+  - additionally, it provides rate limiting for the redirector service
+
 ## Implemented features
 
 ### Required features
@@ -58,7 +88,6 @@ It is not a cryptographic hash function, rather it is a obfuscation algorithm.
 - ❌ Technically, it is possible to discover a way to reverse the slug to the original ID.
 
 I considered other options, like symmetric encryption, but the resulting slug were too long (which makes quite sense).
-
 
 
 ## Utils
