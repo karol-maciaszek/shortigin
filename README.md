@@ -2,6 +2,30 @@
 
 ## Introduction
 
+## Implemented features
+
+### Required features
+
+- ✅ Build a web page with a form for entering a URL
+- ✅ When the form is submitted, return a shortened version of the URL
+- ✅ Save a record of the shortened URL to a database
+- ✅ Ensure the slug of the URL (abc123 in the screenshot above) is unique
+- ✅ When the shortened URL is accessed, redirect to the stored URL
+- ✅ If an invalid slug is accessed, display a 404 Not Found page
+
+### Additional features
+
+- ✅ Add support for accounts so people can view the URLs they created - Validate the URL provided is an actual URL
+  - Accounts are implemented using [Auth0](https://auth0.com) service
+- ✅ Display an error message if invalid
+- ✅ Make it easy to copy the shortened URL to the clipboard
+- ✅ Allow users to modify the slug of their URL
+- ✅ Track visits to the shortened URL
+- ✅ Add rate-limiting to prevent bad-actors from spamming the service
+  - Rate limiting is configured on gateway `nginx`
+- ✅ Update API to follow a known spec (such as json:api)
+  - comment: I chose GraphQL
+
 ## Motivation behind specific solutions
 
 ### GraphQL
@@ -23,9 +47,10 @@ The service uses `302` for redirection. It is because the underlying target URL 
 
 ### Slug generation
 
-Slug generation is based on Hashids library. It generates a unique slug for a given integer id. The slug is generated using the following characters: `[a-zA-Z0-9]`.
+Slug generation is based on [Hashids](https://www.npmjs.com/package/hashids) library. It generates a unique slug for a given integer id. The slug is generated using the following characters: `[a-zA-Z0-9]`.
 It is not a cryptographic hash function, rather it is a obfuscation algorithm. 
 
+- ✅ With the library, we can generate a unique slug without the need for a database check.
 - ✅ Non-trivial output → The output looks random (xYz8Aq instead of 12345).
 - ✅ Collision-free → Every number gets a unique encoded string.
 - ✅ Always ensures a minimum of 6 characters.
