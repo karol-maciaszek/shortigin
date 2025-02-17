@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes, forwardRef, ButtonHTMLAttributes, useState, useCallback} from 'react'
+import React, {forwardRef, ButtonHTMLAttributes, useState, useCallback} from 'react'
 
 const CopyButton = forwardRef<
   HTMLButtonElement,

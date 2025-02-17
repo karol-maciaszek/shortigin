@@ -1,7 +1,7 @@
-import React, {InputHTMLAttributes, forwardRef, ButtonHTMLAttributes, useState, useCallback} from 'react'
+import React from 'react'
 
-const Logo: React.FC = () =>
-  <p className="text-center text-6xl font-extrabold text-shadow-xl shadow-neoncyan select-none">
+const Logo: React.FC<{ size: 'lg' | 'sm' }> = ({ size }) =>
+  <p className={`text-center font-extrabold shadow-neoncyan select-none ${size === 'lg' ? 'text-6xl text-shadow-xl' : 'text-lg text-shadow-sm'}`}>
     <span className="text-electricblue">Deep</span><span className="text-white">Shortigin</span>
   </p>
 

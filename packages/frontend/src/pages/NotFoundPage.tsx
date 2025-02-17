@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const NotFoundPage: React.FC = () => {
+export const NotFoundPage = () => {
   return (
-          <h1>
-            Not Found
-          </h1>
+      <h1>
+        Not Found
+      </h1>
   )
 }

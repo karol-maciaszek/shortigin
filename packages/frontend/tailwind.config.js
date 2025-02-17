@@ -21,6 +21,7 @@ module.exports = {
       serif: ['serif'],
     },
     textShadow: {
+      sm: '0 0 20px var(--tw-shadow-color)',
       xl: '0 0 40px var(--tw-shadow-color)',
     },
   },

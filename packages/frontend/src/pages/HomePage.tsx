@@ -9,7 +9,7 @@ import Logo from "../components/Logo";
 import MessageBox from "../components/MessageBox";
 import {ThreeDots} from 'react-loader-spinner'
 
-export const HomePage: React.FC = () => {
+export const HomePage = () => {
   const { handleSubmit, register, formState } = useForm({ defaultValues: { url: '' } })
   const [{ data: insertShortcutData, error: insertShortcutError, fetching: insertShortcutFetching }, insertShortcut] = useInsertShortcutMutation()
   const [{ data: getShortcutData, error: getShortcutError }] = useGetShortcutSubscription({
@@ -29,7 +29,7 @@ export const HomePage: React.FC = () => {
   const working = insertShortcutFetching || (insertShortcutData && !resultUrl)
 
   return <>
-    <Logo />
+    <Logo size="lg" />
 
     <form className="mt-28 mb-12 flex gap-3 justify-center" onSubmit={handleSubmit(doShorten)}>
       <input className="w-1/3" type="text" placeholder="Enter the URL shorten" {...register('url')} />
