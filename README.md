@@ -62,9 +62,13 @@ Solution consists of the following components:
 
 ### Hasura GraphQL engine
 
-Hasura is a GraphQL engine that connects to the Postgres database and provides a GraphQL API. It is a great tool for quickly building a GraphQL API. I chose it because of the following reasons:
+Hasura is a GraphQL engine that connects to the Postgres database and provides a GraphQL API. I chose it because of the following reasons:
 
-- It provides CRUD GraphQL operation out-of-a-box
+- Provides CRUD GraphQL operation out-of-a-box
+- Permissions - it allows to define permissions in a declarative way, they are enforced at the SQL query level
+- Real-time updates through websockets with subscriptions
+- Allowed me to focus on project specific business logic, not on the boilerplate code
+  - the backend service is very thin, it only contains two endpoints (slug generation and URL validation)
 
 ### GraphQL
 
