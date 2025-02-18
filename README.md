@@ -14,7 +14,9 @@ Visit [https://shortigin.maciaszek.pl](https://shortigin.maciaszek.pl) to see th
 
 You need to have Docker installed on your machine. The service is composed of multiple containers, and Docker Compose is used to manage them.
 
-After cloning the repository, please move `.env.template` to `.env` and fill the variables. You might have also received the file with the filled variables.
+After cloning the repository, please move `.env.template` to `.env` and fill the variables. You might have also received the ready `.env` file in separate communication.
+
+```bash
 
 To start the service, run the following command:
 
