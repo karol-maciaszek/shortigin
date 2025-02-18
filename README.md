@@ -20,6 +20,8 @@ After cloning the repository, you can start the service by running the following
 docker compose up
 ```
 
+Then, the service should be available at [http://localhost:4050](http://localhost:4050).
+
 ## Architecture
 
 ![Architecture](docs/architecture.png "Architecture")
